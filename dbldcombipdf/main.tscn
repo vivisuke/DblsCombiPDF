@@ -50,19 +50,57 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Draw"
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="TextEdit1" type="TextEdit" parent="."]
 offset_left = 10.0
 offset_top = 60.0
-offset_right = 610.0
+offset_right = 720.0
 offset_bottom = 590.0
-text = "R"
-editable = false
+theme_override_colors/background_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = " 1: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 2: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 3: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 4: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 5: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 6: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 7: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 8: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+ 9: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
+10: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |"
 
-[node name="LineEdit2" type="LineEdit" parent="."]
-offset_left = 620.0
+[node name="TextEdit2" type="TextEdit" parent="."]
+offset_left = 730.0
 offset_top = 60.0
-offset_right = 880.0
+offset_right = 990.0
 offset_bottom = 320.0
-theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
-text = " 1:"
-editable = false
+text = " 1: 0 0 0 0 0 0 0 0 0 0 0 0
+ 2: 0 0 0 0 0 0 0 0 0 0 0 0
+ 3: 0 0 0 0 0 0 0 0 0 0 0 0
+ 4: 0 0 0 0 0 0 0 0 0 0 0 0
+ 5: 0 0 0 0 0 0 0 0 0 0 0 0
+ 6: 0 0 0 0 0 0 0 0 0 0 0 0
+ 7: 0 0 0 0 0 0 0 0 0 0 0 0
+ 8: 0 0 0 0 0 0 0 0 0 0 0 0
+ 9: 0 0 0 0 0 0 0 0 0 0 0 0
+10: 0 0 0 0 0 0 0 0 0 0 0 0
+11: 0 0 0 0 0 0 0 0 0 0 0 0
+12: 0 0 0 0 0 0 0 0 0 0 0 0"
+
+[node name="TextEdit3" type="TextEdit" parent="."]
+offset_left = 730.0
+offset_top = 330.0
+offset_right = 990.0
+offset_bottom = 590.0
+text = " 1: 0 0 0 0 0 0 0 0 0 0 0 0
+ 2: 0 0 0 0 0 0 0 0 0 0 0 0
+ 3: 0 0 0 0 0 0 0 0 0 0 0 0
+ 4: 0 0 0 0 0 0 0 0 0 0 0 0
+ 5: 0 0 0 0 0 0 0 0 0 0 0 0
+ 6: 0 0 0 0 0 0 0 0 0 0 0 0
+ 7: 0 0 0 0 0 0 0 0 0 0 0 0
+ 8: 0 0 0 0 0 0 0 0 0 0 0 0
+ 9: 0 0 0 0 0 0 0 0 0 0 0 0
+10: 0 0 0 0 0 0 0 0 0 0 0 0
+11: 0 0 0 0 0 0 0 0 0 0 0 0
+12: 0 0 0 0 0 0 0 0 0 0 0 0"
