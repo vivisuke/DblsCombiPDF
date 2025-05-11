@@ -6,8 +6,9 @@ var sch
 func _ready() -> void:
 	sch = Schedule.new()
 	sch.set_ncnp(3, 12)		# コート数、全プレイヤー数
-	var txt = sch.pair_counts_str()
-	$TabContainer/PairCounts.text = txt
+	#var txt = sch.pair_counts_str()
+	$TabContainer/PairCounts.text = sch.pair_counts_str()
+	$TabContainer/OppoCounts.text = sch.oppo_counts_str()
 	pass
 	
 	
