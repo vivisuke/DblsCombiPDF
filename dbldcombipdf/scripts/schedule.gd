@@ -36,13 +36,12 @@ func oppo_counts_str():
 			txt += "%2d"%m_oppo_counts[y][x]
 		txt += "\n";
 	return txt
-func set_ncnp(n_corts, n_players):
+func set_ncnp(n_corts, n_players, desc=true):
 	m_n_corts = n_corts
 	m_n_players = n_players
 	m_n_resting = n_players - n_corts * 4
 	var round = Round.new()
 	round.set_first_round(m_n_players, m_n_resting)
-	#round.print()
 	m_rounds = [round]
 	init_pair_counts()
 	init_oppo_counts()
