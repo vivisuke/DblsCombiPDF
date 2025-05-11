@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://cj0cqvsx4ik42"]
+[gd_scene load_steps=2 format=3 uid="uid://cj0cqvsx4ik42"]
+
+[ext_resource type="Script" uid="uid://cfsh717mn2ke4" path="res://scripts/main.gd" id="1_ig7tw"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_ig7tw")
 
 [node name="BG" type="ColorRect" parent="."]
 offset_right = 1000.0
@@ -23,6 +26,9 @@ text = "n corts:"
 layout_mode = 2
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 1)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 1)
+min_value = 1.0
+max_value = 4.0
+value = 1.0
 
 [node name="SPC1" type="ColorRect" parent="HBC"]
 custom_minimum_size = Vector2(20, 0)
@@ -39,16 +45,19 @@ text = "n players:"
 layout_mode = 2
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 1)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 1)
+min_value = 5.0
+max_value = 20.0
+value = 5.0
 
 [node name="SPC2" type="ColorRect" parent="HBC"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(0.941176, 0.941176, 0.941176, 0)
 
-[node name="Button" type="Button" parent="HBC"]
-custom_minimum_size = Vector2(100, 0)
+[node name="MakeButton" type="Button" parent="HBC"]
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
-text = "Draw"
+text = "Make Match"
 
 [node name="TextEdit1" type="TextEdit" parent="."]
 offset_left = 10.0
@@ -69,29 +78,16 @@ text = " 1: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
  9: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |
 10: | 1 2 : 3 4 | 5 6 : 7 8 | 9 10 : 11 12 | R: None |"
 
-[node name="TextEdit2" type="TextEdit" parent="."]
+[node name="TabContainer" type="TabContainer" parent="."]
 offset_left = 730.0
 offset_top = 60.0
 offset_right = 990.0
-offset_bottom = 320.0
-text = " 1: 0 0 0 0 0 0 0 0 0 0 0 0
- 2: 0 0 0 0 0 0 0 0 0 0 0 0
- 3: 0 0 0 0 0 0 0 0 0 0 0 0
- 4: 0 0 0 0 0 0 0 0 0 0 0 0
- 5: 0 0 0 0 0 0 0 0 0 0 0 0
- 6: 0 0 0 0 0 0 0 0 0 0 0 0
- 7: 0 0 0 0 0 0 0 0 0 0 0 0
- 8: 0 0 0 0 0 0 0 0 0 0 0 0
- 9: 0 0 0 0 0 0 0 0 0 0 0 0
-10: 0 0 0 0 0 0 0 0 0 0 0 0
-11: 0 0 0 0 0 0 0 0 0 0 0 0
-12: 0 0 0 0 0 0 0 0 0 0 0 0"
-
-[node name="TextEdit3" type="TextEdit" parent="."]
-offset_left = 730.0
-offset_top = 330.0
-offset_right = 990.0
 offset_bottom = 590.0
+current_tab = 1
+
+[node name="PairCounts" type="TextEdit" parent="TabContainer"]
+visible = false
+layout_mode = 2
 text = " 1: 0 0 0 0 0 0 0 0 0 0 0 0
  2: 0 0 0 0 0 0 0 0 0 0 0 0
  3: 0 0 0 0 0 0 0 0 0 0 0 0
@@ -104,3 +100,22 @@ text = " 1: 0 0 0 0 0 0 0 0 0 0 0 0
 10: 0 0 0 0 0 0 0 0 0 0 0 0
 11: 0 0 0 0 0 0 0 0 0 0 0 0
 12: 0 0 0 0 0 0 0 0 0 0 0 0"
+metadata/_tab_index = 0
+
+[node name="OppoCounts" type="TextEdit" parent="TabContainer"]
+layout_mode = 2
+text = " 1: 0 3 3 3 0 0 0 0 0 0 0 0
+ 2: 0 0 0 0 0 0 0 0 0 0 0 0
+ 3: 0 0 0 0 0 0 0 0 0 0 0 0
+ 4: 0 0 0 0 0 0 0 0 0 0 0 0
+ 5: 0 0 0 0 0 0 0 0 0 0 0 0
+ 6: 0 0 0 0 0 0 0 0 0 0 0 0
+ 7: 0 0 0 0 0 0 0 0 0 0 0 0
+ 8: 0 0 0 0 0 0 0 0 0 0 0 0
+ 9: 0 0 0 0 0 0 0 0 0 0 0 0
+10: 0 0 0 0 0 0 0 0 0 0 0 0
+11: 0 0 0 0 0 0 0 0 0 0 0 0
+12: 0 0 0 0 0 0 0 0 0 0 0 0"
+metadata/_tab_index = 1
+
+[connection signal="pressed" from="HBC/MakeButton" to="." method="_on_make_button_pressed"]
