@@ -11,6 +11,11 @@ var m_oppo_counts = []
 
 func _init() -> void:
 	pass
+func to_str():
+	var txt = ""
+	for round in m_rounds:
+		txt += round.to_str()
+	return txt
 func pair_counts_str():
 	var txt = ""
 	for y in range(m_n_players):

@@ -59,7 +59,7 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 text = "Make Match"
 
-[node name="TextEdit1" type="TextEdit" parent="."]
+[node name="Schedule" type="TextEdit" parent="."]
 offset_left = 10.0
 offset_top = 60.0
 offset_right = 720.0
