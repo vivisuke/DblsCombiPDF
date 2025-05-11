@@ -18,7 +18,7 @@
 0016 ◎ C 05/11 05/11 0.001│ToDo│UI：休憩降順・昇順選択可能に
 0017 ● C 05/11            │ToDo│Schedule.add_seq_rest_round()：※ 休憩を順番に取る
 0018 ● C 05/11            │ToDo│Schedule.set_ncnp()：引数に休憩降順・昇順指定追加
-0019 ● C 05/11            │ToDo│PDF addon 追加
+0019 ◎ C 05/11 05/12 0.001│ToDo│PDF addon 追加
 0020 ● C 05/11            │ToDo│PDF ボタン設置
 0021 ◎ C 05/11 05/11 0.001│ToDo│コート数が増減した場合は、プレイヤーSpinBox の最小値を変更
 0022 ● C 05/11            │ToDo│
