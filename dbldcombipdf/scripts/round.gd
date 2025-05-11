@@ -5,6 +5,20 @@ extends Object
 var m_pairs : PackedVector2Array
 var m_resting : PackedByteArray
 
+func print():
+	print(to_str())
+func to_str():
+	var txt = ""
+	var i = 0
+	for p in m_pairs:
+		txt += "%2d %2d "%[p.x+1, p.y+1]
+		if i%2 == 0: txt += ": "
+		else: txt += "| "
+		i += 1
+	txt += "Rest: "
+	for r in m_resting:
+		txt += "%2d "%(r+1)
+	return txt
 func set_first_round(n_players: int, n_resting: int):
 	var n_not_resting = n_players - n_resting	# 非休憩中プレイヤー数
 	m_pairs.resize(n_not_resting/2)

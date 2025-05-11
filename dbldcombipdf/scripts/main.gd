@@ -5,6 +5,7 @@ var sch
 
 func _ready() -> void:
 	sch = Schedule.new()
+	sch.set_ncnp(3, 12)		# コート数、全プレイヤー数
 	pass
 	
 	
