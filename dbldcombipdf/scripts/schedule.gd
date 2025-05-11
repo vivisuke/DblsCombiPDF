@@ -11,6 +11,14 @@ var m_oppo_counts = []
 
 func _init() -> void:
 	pass
+func pair_counts_str():
+	var txt = ""
+	for y in range(m_n_players):
+		txt += "%2d: "%(y+1)
+		for x in range(m_n_players):
+			txt += "%2d"%m_pair_counts[y][x]
+		txt += "\n";
+	return txt
 func set_ncnp(n_corts, n_players):
 	m_n_corts = n_corts
 	m_n_players = n_players
@@ -20,6 +28,7 @@ func set_ncnp(n_corts, n_players):
 	round.print()
 	m_rounds = [round]
 	init_pair_counts()
+	update_pair_counts(round.m_pairs)
 	init_oppo_counts()
 func init_pair_counts():
 	m_pair_counts.resize(m_n_players)
@@ -28,6 +37,10 @@ func init_pair_counts():
 		m_pair_counts[i].resize(m_n_players)
 		m_pair_counts[i].fill(0)
 		pass
+func update_pair_counts(pairs : PackedVector2Array):
+	for p in pairs:
+		m_pair_counts[p.x][p.y] += 1
+		m_pair_counts[p.y][p.x] += 1
 func init_oppo_counts():
 	m_oppo_counts.resize(m_n_players)
 	for i in range(m_n_players):
