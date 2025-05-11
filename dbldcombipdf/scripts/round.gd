@@ -28,5 +28,14 @@ func set_first_round(n_players: int, n_resting: int):
 	m_resting.clear()
 	for r in range(n_not_resting, n_players):
 		m_resting.push_back(r)
+func set_round(ar : Array, n_resting: int):
+	var n_not_resting = ar.size() - n_resting
+	m_pairs.resize(n_not_resting/2)
+	for i in range(n_not_resting/2):
+		m_pairs[i].x = ar[i*2]
+		m_pairs[i].y = ar[i*2 + 1]
+	m_resting.clear()
+	for r in range(n_not_resting, ar.size()):
+		m_resting.push_back(ar[r])
 func set_random(plst : PackedByteArray):	# 非休憩中プレイヤーリスト
 	pass

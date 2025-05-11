@@ -54,10 +54,32 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(0.941176, 0.941176, 0.941176, 0)
 
+[node name="OrderButton" type="Button" parent="HBC"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "Desc"
+
+[node name="SPC3" type="ColorRect" parent="HBC"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+color = Color(0.941176, 0.941176, 0.941176, 0)
+
 [node name="MakeButton" type="Button" parent="HBC"]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 text = "Make Match"
+
+[node name="SPC4" type="ColorRect" parent="HBC"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+color = Color(0.941176, 0.941176, 0.941176, 0)
+
+[node name="PDFButton" type="Button" parent="HBC"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "PDF"
 
 [node name="Schedule" type="TextEdit" parent="."]
 offset_left = 10.0
@@ -118,4 +140,5 @@ text = " 1: 0 3 3 3 0 0 0 0 0 0 0 0
 12: 0 0 0 0 0 0 0 0 0 0 0 0"
 metadata/_tab_index = 1
 
+[connection signal="toggled" from="HBC/OrderButton" to="." method="_on_order_button_toggled"]
 [connection signal="pressed" from="HBC/MakeButton" to="." method="_on_make_button_pressed"]

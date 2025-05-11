@@ -14,9 +14,19 @@
 0012 ◎ C 05/11 05/11 0.001│ToDo│Schedule.update_pair_counts()
 0013 ◎ C 05/11 05/11 0.001│ToDo│Schedule.update_oppo_counts()
 0014 ◎ C 05/11 05/11 0.001│ToDo│Schedule.to_str()
-0015 ● C 05/11            │ToDo│
-0016 ● C 05/11            │ToDo│
-0017 ● C 05/11            │ToDo│
-0018 ● C 05/11            │ToDo│
-0019 ● C 05/11            │ToDo│
-0020 ● C 05/11            │ToDo│
+0015 ◎ C 05/11 05/11 0.001│ToDo│Schedule.add_random_round()：※ 休憩も完全ランダム
+0016 ◎ C 05/11 05/11 0.001│ToDo│UI：休憩降順・昇順選択可能に
+0017 ● C 05/11            │ToDo│Schedule.add_seq_rest_round()：※ 休憩を順番に取る
+0018 ● C 05/11            │ToDo│Schedule.set_ncnp()：引数に休憩降順・昇順指定追加
+0019 ● C 05/11            │ToDo│PDF addon 追加
+0020 ● C 05/11            │ToDo│PDF ボタン設置
+0021 ● C 05/11            │ToDo│
+0022 ● C 05/11            │ToDo│
+0023 ● C 05/11            │ToDo│
+0024 ● C 05/11            │ToDo│
+0025 ● C 05/11            │ToDo│
+0026 ● C 05/11            │ToDo│
+0027 ● C 05/11            │ToDo│
+0028 ● C 05/11            │ToDo│
+0029 ● C 05/11            │ToDo│
+0030 ● C 05/11            │ToDo│

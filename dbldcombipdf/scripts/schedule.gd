@@ -13,8 +13,12 @@ func _init() -> void:
 	pass
 func to_str():
 	var txt = ""
+	var r = 0
 	for round in m_rounds:
+		r += 1
+		txt += "R%d: "%r
 		txt += round.to_str()
+		txt += "\n"
 	return txt
 func pair_counts_str():
 	var txt = ""
@@ -38,11 +42,24 @@ func set_ncnp(n_corts, n_players):
 	m_n_resting = n_players - n_corts * 4
 	var round = Round.new()
 	round.set_first_round(m_n_players, m_n_resting)
-	round.print()
+	#round.print()
 	m_rounds = [round]
 	init_pair_counts()
-	update_pair_counts(round.m_pairs)
 	init_oppo_counts()
+	update_pair_counts(round.m_pairs)
+	update_oppo_counts(round.m_pairs)
+func add_random_round():	#  休憩も完全ランダム
+	var ar = []
+	ar.resize(m_n_players)
+	for i in range(m_n_players): ar[i] = i
+	ar.shuffle()
+	#var lst = PackedByteArray()
+	#lst.resize(m_n_players)
+	#for i in range(m_n_players): lst[i] = ar[i]
+	var round = Round.new()
+	round.set_round(ar, m_n_resting)
+	m_rounds.push_back(round)
+	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
 func init_pair_counts():
 	m_pair_counts.resize(m_n_players)
