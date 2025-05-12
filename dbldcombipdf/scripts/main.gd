@@ -44,5 +44,11 @@ func _on_make_button_pressed() -> void:
 
 
 func _on_pdf_button_pressed() -> void:
-	sch.gen_PDF()
+	var status : bool = sch.gen_PDF()
+	$AcceptDialog.title = "PDF"
+	if status:
+		$AcceptDialog.dialog_text = "Export successful"
+	else:
+		$AcceptDialog.dialog_text = "Export failed"
+	$AcceptDialog.popup_centered()
 	pass # Replace with function body.

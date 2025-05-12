@@ -1,4 +1,4 @@
-class_name Schedule
+﻿class_name Schedule
 
 extends Object
 
@@ -90,7 +90,7 @@ func update_oppo_counts(pairs : PackedVector2Array):
 		m_oppo_counts[pairs[i].y][pairs[i+1].y] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].x] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].y] += 1
-func gen_PDF():
+func gen_PDF() -> bool:
 	# Create a new PDF document 
 	# This just resets the current PDF data
 	# This also adds 1 blank page to the PDF
@@ -108,7 +108,8 @@ func gen_PDF():
 	# Font size is optional (Default is 12pt)
 	# Font is optional (Default is Helvetica)
 	# Fonts MUST be added prior to using them
-	PDF.newLabel(1, Vector2(250,10), "Hello world")
+	#PDF.newLabel(1, Vector2(250,10), "Hello world")
+	PDF.newLabel(1, Vector2(250,10), "%d面 %d人"%[m_n_corts, m_n_players])
 	
 	# Add a new font and a new label using the font
 	# Format is (fontName, fontPath)
@@ -126,11 +127,12 @@ func gen_PDF():
 	
 	# Export the pdf data
 	# Images will ALWAYS draw behind boxes, which will ALWAYS draw behind text
-	var status = PDF.export(path)
+	var status : bool = PDF.export(path)
 	
 	# Print export status
 	print("Export successful: " + str(status))
-	pass
+
+	return status
 
 func getDesktopPath():	# gets path to user desktop
 	var ret = ""

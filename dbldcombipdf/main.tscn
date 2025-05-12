@@ -140,6 +140,8 @@ text = " 1: 0 3 3 3 0 0 0 0 0 0 0 0
 12: 0 0 0 0 0 0 0 0 0 0 0 0"
 metadata/_tab_index = 1
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+
 [connection signal="value_changed" from="HBC/CortSpinBox" to="." method="_on_cort_spin_box_value_changed"]
 [connection signal="value_changed" from="HBC/PlayerSpinBox" to="." method="_on_player_spin_box_value_changed"]
 [connection signal="toggled" from="HBC/OrderButton" to="." method="_on_order_button_toggled"]
