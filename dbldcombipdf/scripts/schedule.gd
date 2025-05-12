@@ -1,4 +1,4 @@
-﻿class_name Schedule
+class_name Schedule
 
 extends Object
 
@@ -109,16 +109,23 @@ func gen_PDF() -> bool:
 	# Font is optional (Default is Helvetica)
 	# Fonts MUST be added prior to using them
 	#PDF.newLabel(1, Vector2(250,10), "Hello world")
-	PDF.newLabel(1, Vector2(250,10), "%d面 %d人"%[m_n_corts, m_n_players])
+	#PDF.newLabel(1, Vector2(250,10), "%d面 %d人"%[m_n_corts, m_n_players])
 	
 	# Add a new font and a new label using the font
 	# Format is (fontName, fontPath)
 	# Path MUST be to .ttf file
 	#PDF.newFont("Amplify", "res://addons/godotpdf/Amplify.ttf")
 	#PDF.newLabel(1, Vector2(250,30), "GodotPDF is awesome!", 20, "Amplify")
+	PDF.newFont("ZenKakuGothicNew", "res://addons/godotpdf/ZenKakuGothicNew-Medium.ttf")
+	var txt = "Num-Corts: %d, Num-Players: %d"%[m_n_corts, m_n_players]
+	#var txt = "%d面 %d人"%[m_n_corts, m_n_players]
+	PDF.newLabel(1, Vector2(300,10), txt, 20, "ZenKakuGothicNew")
 
 	# box(position=Vector2i(0,0), size=Vector2i(0,0), fill=Color(0.0,0.0,0.0,1.0), border=Color(0.0,0.0,0.0,1.0), borderWidth=10) -> void:
-	PDF.newBox(1, Vector2(100, 100), Vector2(200, 300), Color(1.0,1.0,1.0,1.0), Color(0.0,1.0,0.0,0.0), 3)
+	#PDF.newBox(1, Vector2(100, 100), Vector2(200, 300), Color(1.0,1.0,1.0,1.0), Color(0.0,1.0,0.0,0.0), 3)
+	var wd = A4_LANDSCAPE.x - 20
+	var ht = A4_LANDSCAPE.y - 50
+	PDF.newBox(1, Vector2(10, 40), Vector2(wd, ht), Color.WHITE, Color.BLACK, 1)
 
 	#
 	# Set the path to export the pdf to
