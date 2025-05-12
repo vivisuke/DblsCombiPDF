@@ -88,3 +88,54 @@ func update_oppo_counts(pairs : PackedVector2Array):
 		m_oppo_counts[pairs[i].y][pairs[i+1].y] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].x] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].y] += 1
+func gen_PDF():
+	# Create a new PDF document 
+	# This just resets the current PDF data
+	# This also adds 1 blank page to the PDF
+	PDF.newPDF() #PDF.newPDF("New PDF", "Godette")
+	PDF.setTitle("New PDF")
+	PDF.setCreator("DblsCombiPDF")
+	
+	# All operations from here on return true or false
+	# Use returns to verify functions are running correctly
+	
+	# Add some text to page 1
+	# Format is (page number, position, text, font size, font)
+	# Pages are 612x792 units
+	# Font size is optional (Default is 12pt)
+	# Font is optional (Default is Helvetica)
+	# Fonts MUST be added prior to using them
+	PDF.newLabel(1, Vector2(250,10), "Hello world")
+	
+	# Add a new font and a new label using the font
+	# Format is (fontName, fontPath)
+	# Path MUST be to .ttf file
+	#PDF.newFont("Amplify", "res://addons/godotpdf/Amplify.ttf")
+	#PDF.newLabel(1, Vector2(250,30), "GodotPDF is awesome!", 20, "Amplify")
+
+	# box(position=Vector2i(0,0), size=Vector2i(0,0), fill=Color(0.0,0.0,0.0,1.0), border=Color(0.0,0.0,0.0,1.0), borderWidth=10) -> void:
+	PDF.newBox(1, Vector2(100, 100), Vector2(200, 300), Color(1.0,1.0,1.0,1.0), Color(0.0,1.0,0.0,0.0), 3)
+
+	#
+	# Set the path to export the pdf to
+	# The target file MUST be of the .pdf type
+	var path = getDesktopPath() + "/GodotPDF.pdf"
+	
+	# Export the pdf data
+	# Images will ALWAYS draw behind boxes, which will ALWAYS draw behind text
+	var status = PDF.export(path)
+	
+	# Print export status
+	print("Export successful: " + str(status))
+	pass
+
+func getDesktopPath():	# gets path to user desktop
+	var ret = ""
+	var slashes = 0
+	for i in OS.get_user_data_dir():
+		if i == "/":
+			slashes += 1
+		if slashes == 3:
+			return ret + "/Desktop"
+		else:
+			ret += i

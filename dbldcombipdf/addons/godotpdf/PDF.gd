@@ -7,7 +7,9 @@ var _fonts = []
 var _fontList = []
 var _title = ""
 var _creator = ""
-var _pageSize = Vector2i(612, 792)
+#var _pageSize = Vector2i(612, 792)		# レターサイズ
+#var _pageSize = Vector2i(612, 792*2)		# レターサイズ縦2倍
+var _pageSize = Vector2i(842, 595)		# A4 ランドスケープ
 
 class _text:
 	func _init(text="", size=12, position=Vector2i(0,0), font="Helvetica") -> void:
@@ -283,6 +285,7 @@ func _addPage():
 	var ret = str(len(_xref)) + " 0 obj\n<<\n"
 	ret += "/Type /Page\n"
 	ret += "/Parent " + str(3 + ((len(_fontList)-1)*3)) + " 0 R\n"
+	ret += "/MediaBox [0 0 %d %d]\n" % [_pageSize.x, _pageSize.y]
 	ret += "/Resources <</Font <</F0 2 0 R"
 	for f in range(len(_fonts)):
 		ret += " /F" + str(f+1) + " " + str((f*3)+3) + " 0 R"

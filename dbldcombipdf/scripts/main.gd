@@ -41,3 +41,8 @@ func _on_player_spin_box_value_changed(value: float) -> void:
 func _on_make_button_pressed() -> void:
 	gen_match()
 	pass # Replace with function body.
+
+
+func _on_pdf_button_pressed() -> void:
+	sch.gen_PDF()
+	pass # Replace with function body.
