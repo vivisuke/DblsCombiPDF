@@ -123,9 +123,26 @@ func gen_PDF() -> bool:
 
 	# box(position=Vector2i(0,0), size=Vector2i(0,0), fill=Color(0.0,0.0,0.0,1.0), border=Color(0.0,0.0,0.0,1.0), borderWidth=10) -> void:
 	#PDF.newBox(1, Vector2(100, 100), Vector2(200, 300), Color(1.0,1.0,1.0,1.0), Color(0.0,1.0,0.0,0.0), 3)
+	var x0 = 10
+	var y0 = 40
 	var wd = A4_LANDSCAPE.x - 20
 	var ht = A4_LANDSCAPE.y - 50
-	PDF.newBox(1, Vector2(10, 40), Vector2(wd, ht), Color.WHITE, Color.BLACK, 1)
+	PDF.newBox(1, Vector2(x0, y0), Vector2(wd, ht), Color.WHITE, Color.BLACK, 1)
+	var dy = ht / 10.0
+	var y = y0
+	for i in range(9):
+		y += dy
+		PDF.newBox(1, Vector2(x0, y), Vector2(wd, 0), Color.WHITE, Color.BLACK, 0)
+	var dx = wd / 3.0
+	var x = x0
+	var pid = 0
+	for i in range(3):
+		txt = "%d %d - %d %d" % [pid+1, pid+2, pid+3, pid+4]
+		PDF.newLabel(1, Vector2(x+60, y0+5), txt, 40, "ZenKakuGothicNew")
+		pid += 4
+		if i == 2: break;
+		x += dx
+		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)
 
 	#
 	# Set the path to export the pdf to
