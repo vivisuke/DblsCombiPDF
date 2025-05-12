@@ -9,6 +9,8 @@ var m_rounds = []
 var m_pair_counts = []
 var m_oppo_counts = []
 
+const A4_LANDSCAPE = Vector2i(842, 595)
+
 func _init() -> void:
 	pass
 func to_str():
@@ -95,6 +97,7 @@ func gen_PDF():
 	PDF.newPDF() #PDF.newPDF("New PDF", "Godette")
 	PDF.setTitle("New PDF")
 	PDF.setCreator("DblsCombiPDF")
+	PDF.setPageSize(A4_LANDSCAPE)
 	
 	# All operations from here on return true or false
 	# Use returns to verify functions are running correctly

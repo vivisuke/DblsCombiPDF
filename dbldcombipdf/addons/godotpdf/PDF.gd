@@ -7,9 +7,9 @@ var _fonts = []
 var _fontList = []
 var _title = ""
 var _creator = ""
-#var _pageSize = Vector2i(612, 792)		# レターサイズ
+var _pageSize = Vector2i(612, 792)		# レターサイズ
 #var _pageSize = Vector2i(612, 792*2)		# レターサイズ縦2倍
-var _pageSize = Vector2i(842, 595)		# A4 ランドスケープ
+#var _pageSize = Vector2i(842, 595)		# A4 ランドスケープ
 
 class _text:
 	func _init(text="", size=12, position=Vector2i(0,0), font="Helvetica") -> void:
@@ -70,6 +70,9 @@ func setTitle(t):
 
 func setCreator(c):
 	_creator = c
+
+func setPageSize(psz : Vector2i):
+	_pageSize = psz
 
 func newPage() -> bool:
 	_pages.append(_page.new())
