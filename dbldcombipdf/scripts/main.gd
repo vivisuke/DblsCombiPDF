@@ -14,7 +14,8 @@ func _ready() -> void:
 func gen_match():
 	sch.set_ncnp(m_n_corts, m_n_players)		# コート数、全プレイヤー数
 	for r in range(1, 10):
-		sch.add_random_round()
+		#sch.add_random_round()				# 休憩も含めて完全ランダム
+		sch.add_rotated_rest_round()		# 順番に休憩
 	$Schedule.text = sch.to_str()
 	$TabContainer/PairCounts.text = sch.pair_counts_str()
 	$TabContainer/OppoCounts.text = sch.oppo_counts_str()

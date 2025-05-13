@@ -5,6 +5,9 @@ extends Object
 var m_n_corts = 1
 var m_n_players = 4
 var m_n_resting = 0
+var m_first_resting_pid = 0
+var m_last_resting_pid = 0			# [first, last) 範囲が休憩中
+var m_rest_order_desc = true		# 休憩順：降順・昇順
 var m_rounds = []
 var m_pair_counts = []
 var m_oppo_counts = []
@@ -42,6 +45,9 @@ func set_ncnp(n_corts, n_players, desc=true):
 	m_n_corts = n_corts
 	m_n_players = n_players
 	m_n_resting = n_players - n_corts * 4
+	m_first_resting_pid = n_corts * 4
+	m_last_resting_pid = m_n_players
+	m_rest_order_desc = desc
 	var round = Round.new()
 	round.set_first_round(m_n_players, m_n_resting)
 	m_rounds = [round]
@@ -62,6 +68,34 @@ func add_random_round():	#  休憩も完全ランダム
 	m_rounds.push_back(round)
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
+func add_rotated_rest_round():	#  順番に休憩をとる組み合わせ生成
+	if m_rest_order_desc:
+		m_first_resting_pid -= m_n_resting
+		if m_first_resting_pid < 0: m_first_resting_pid += m_n_players
+	else:
+		m_first_resting_pid += m_n_resting
+		if m_first_resting_pid >= m_n_players: m_first_resting_pid -= m_n_players
+	m_last_resting_pid = (m_first_resting_pid + m_n_resting) % m_n_players
+	var ar = []
+	#ar.resize(m_n_players)
+	for i in range(m_n_players):
+		if m_n_resting == 0:
+			ar.push_back(i)
+		elif m_first_resting_pid < m_last_resting_pid:
+			if i < m_first_resting_pid || i >= m_last_resting_pid:
+				ar.push_back(i)
+		else:
+			if i < m_first_resting_pid && i >= m_last_resting_pid:
+				ar.push_back(i)
+	ar.shuffle()
+	for i in range(m_n_resting):
+		ar.push_back((m_first_resting_pid + i) % m_n_players)
+	var round = Round.new()
+	round.set_round(ar, m_n_resting)
+	m_rounds.push_back(round)
+	update_pair_counts(round.m_pairs)
+	update_oppo_counts(round.m_pairs)
+	pass
 func init_pair_counts():
 	m_pair_counts.resize(m_n_players)
 	for i in range(m_n_players):
