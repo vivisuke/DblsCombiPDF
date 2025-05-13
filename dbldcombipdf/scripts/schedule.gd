@@ -137,13 +137,22 @@ func gen_PDF() -> bool:
 	var x = x0
 	var pid = 0
 	for i in range(3):
-		txt = "%d %d - %d %d" % [pid+1, pid+2, pid+3, pid+4]
-		PDF.newLabel(1, Vector2(x+60, y0+5), txt, 40, "ZenKakuGothicNew")
-		pid += 4
+		#txt = "%d %d - %d %d" % [pid+1, pid+2, pid+3, pid+4]
+		#PDF.newLabel(1, Vector2(x+60, y0+5), txt, 40, "ZenKakuGothicNew")
+		#pid += 4
 		if i == 2: break;
 		x += dx
 		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)
-
+	y = y0
+	for v in range(10):
+		var r = m_rounds[v]
+		#print(r.m_pairs)
+		x = x0
+		for h in range(3):
+			txt = "%2d %2d - %2d %2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
+			PDF.newLabel(1, Vector2(x+40, y+5), txt, 40, "ZenKakuGothicNew")
+			x += dx
+		y += dy
 	#
 	# Set the path to export the pdf to
 	# The target file MUST be of the .pdf type

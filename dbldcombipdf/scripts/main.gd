@@ -27,19 +27,21 @@ func _on_order_button_toggled(toggled_on: bool) -> void:
 		$HBC/OrderButton.text = "Desc"
 	else:
 		$HBC/OrderButton.text = "Asc"
+	$HBC/PDFButton.disabled = true
 	pass # Replace with function body.
-
-
 func _on_cort_spin_box_value_changed(value: float) -> void:
 	m_n_corts = int(value)
 	$HBC/PlayerSpinBox.set_min(float(m_n_corts * 4))
+	$HBC/PDFButton.disabled = true
 	pass # Replace with function body.
 func _on_player_spin_box_value_changed(value: float) -> void:
 	m_n_players = int(value)
+	$HBC/PDFButton.disabled = true
 	pass # Replace with function body.
 
 func _on_make_button_pressed() -> void:
 	gen_match()
+	$HBC/PDFButton.disabled = false
 	pass # Replace with function body.
 
 
