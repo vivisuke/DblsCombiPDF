@@ -30,7 +30,10 @@ func pair_counts_str():
 	for y in range(m_n_players):
 		txt += "%2d: "%(y+1)
 		for x in range(m_n_players):
-			txt += "%2d"%m_pair_counts[y][x]
+			if x != y:
+				txt += "%2d"%m_pair_counts[y][x]
+			else:
+				txt += " -"
 		txt += "\n";
 	return txt
 func oppo_counts_str():
@@ -38,7 +41,10 @@ func oppo_counts_str():
 	for y in range(m_n_players):
 		txt += "%2d: "%(y+1)
 		for x in range(m_n_players):
-			txt += "%2d"%m_oppo_counts[y][x]
+			if x != y:
+				txt += "%2d"%m_oppo_counts[y][x]
+			else:
+				txt += " -"
 		txt += "\n";
 	return txt
 func set_ncnp(n_corts, n_players, desc=true):
@@ -68,7 +74,7 @@ func add_random_round():	#  休憩も完全ランダム
 	m_rounds.push_back(round)
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
-func add_rotated_rest_round():	#  順番に休憩をとる組み合わせ生成
+func update_next_resting():
 	if m_rest_order_desc:
 		m_first_resting_pid -= m_n_resting
 		if m_first_resting_pid < 0: m_first_resting_pid += m_n_players
@@ -76,8 +82,8 @@ func add_rotated_rest_round():	#  順番に休憩をとる組み合わせ生成
 		m_first_resting_pid += m_n_resting
 		if m_first_resting_pid >= m_n_players: m_first_resting_pid -= m_n_players
 	m_last_resting_pid = (m_first_resting_pid + m_n_resting) % m_n_players
+func get_not_resting_players_array() -> Array:
 	var ar = []
-	#ar.resize(m_n_players)
 	for i in range(m_n_players):
 		if m_n_resting == 0:
 			ar.push_back(i)
@@ -87,8 +93,37 @@ func add_rotated_rest_round():	#  順番に休憩をとる組み合わせ生成
 		else:
 			if i < m_first_resting_pid && i >= m_last_resting_pid:
 				ar.push_back(i)
-	ar.shuffle()
-	for i in range(m_n_resting):
+	return ar
+func add_rotated_rest_round():	#  順番に休憩をとる組み合わせ生成
+	update_next_resting()
+	var ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得
+	ar.shuffle()				# ランダムシャフル
+	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
+		ar.push_back((m_first_resting_pid + i) % m_n_players)
+	var round = Round.new()
+	round.set_round(ar, m_n_resting)
+	m_rounds.push_back(round)
+	update_pair_counts(round.m_pairs)
+	update_oppo_counts(round.m_pairs)
+func swap(ar: Array, ix1, ix2):
+	var t = ar[ix1]
+	ar[ix1] = ar[ix2]
+	ar[ix2] = t
+func make_balanced_pairs(ar: Array, ix) -> bool:
+	if ix == ar.size(): return true
+	var p1 = ar[ix]
+	for k in range(1, ar.size()-ix, 1):
+		if m_pair_counts[p1][ar[ix+k]] == 0:
+			swap(ar, ix+1, ix+k)
+			if make_balanced_pairs(ar, ix+2): return true
+			swap(ar, ix+1, ix+k)
+	return false
+func add_balanced_pairs_round():	# 同じペアと組まない組み合わせ生成
+	update_next_resting()
+	var ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得
+	#ar.shuffle()				# ランダムシャフル
+	make_balanced_pairs(ar, 0)
+	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
 	round.set_round(ar, m_n_resting)

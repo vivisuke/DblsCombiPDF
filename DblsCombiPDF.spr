@@ -34,8 +34,8 @@
 0032 ◎ C 05/13 05/13 0.001│ToDo│コート数、プレイヤー数を変更した場合は、make match するまで PDF ボタンディセーブル
 0033 ◎ C 05/13 05/13 0.001│ToDo│現在の組み合わせ表PDF出力
 0034 ● C 05/13            │ToDo│PDF出力：枠を右にずらし、ラウンド番号描画
-0035 ● C 05/13            │ToDo│Schedule.add_balanced_pairs_round()
-0036 ● C 05/13            │ToDo│
+0035 ◎ C 05/13 05/14 0.001│ToDo│Schedule.add_balanced_pairs_round()
+0036 ◎ C 05/13 05/14 0.001│ToDo│pair, oppo_counts 表示：同じプレイヤーの部分には "-" 表示
 0037 ● C 05/13            │ToDo│
 0038 ● C 05/13            │ToDo│
 0039 ● C 05/13            │ToDo│
