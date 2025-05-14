@@ -9,11 +9,13 @@ var m_desc = true
 func _ready() -> void:
 	$HBC/CortSpinBox.set_value_no_signal(m_n_corts)
 	$HBC/PlayerSpinBox.set_value_no_signal(m_n_players)
+	$HBC/RoundsSpinBox.set_value_no_signal(8)
 	sch = Schedule.new()
 	gen_match()
 func gen_match():
 	sch.set_ncnp(m_n_corts, m_n_players)		# コート数、全プレイヤー数
-	for r in range(1, 9):
+	var nr = $HBC/RoundsSpinBox.value
+	for r in range(1, nr-1):
 		#sch.add_random_round()				# 休憩も含めて完全ランダム
 		#sch.add_rotated_rest_round()		# 順番に休憩
 		sch.add_balanced_pairs_round()		# 順番に休憩、同じペアを回避

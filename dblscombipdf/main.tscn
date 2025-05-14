@@ -20,7 +20,7 @@ offset_bottom = 50.0
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
-text = "n corts:"
+text = "Corts:"
 
 [node name="CortSpinBox" type="SpinBox" parent="HBC"]
 layout_mode = 2
@@ -39,7 +39,7 @@ color = Color(0.941176, 0.941176, 0.941176, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
-text = "n players:"
+text = "Players:"
 
 [node name="PlayerSpinBox" type="SpinBox" parent="HBC"]
 layout_mode = 2
@@ -50,6 +50,25 @@ max_value = 20.0
 value = 5.0
 
 [node name="SPC2" type="ColorRect" parent="HBC"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+color = Color(0.941176, 0.941176, 0.941176, 0)
+
+[node name="Label3" type="Label" parent="HBC"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Rounds:"
+
+[node name="RoundsSpinBox" type="SpinBox" parent="HBC"]
+layout_mode = 2
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 1)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 1)
+min_value = 1.0
+max_value = 12.0
+value = 5.0
+
+[node name="SPC5" type="ColorRect" parent="HBC"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 color = Color(0.941176, 0.941176, 0.941176, 0)
@@ -144,6 +163,7 @@ metadata/_tab_index = 1
 
 [connection signal="value_changed" from="HBC/CortSpinBox" to="." method="_on_cort_spin_box_value_changed"]
 [connection signal="value_changed" from="HBC/PlayerSpinBox" to="." method="_on_player_spin_box_value_changed"]
+[connection signal="value_changed" from="HBC/RoundsSpinBox" to="." method="_on_player_spin_box_value_changed"]
 [connection signal="toggled" from="HBC/OrderButton" to="." method="_on_order_button_toggled"]
 [connection signal="pressed" from="HBC/MakeButton" to="." method="_on_make_button_pressed"]
 [connection signal="pressed" from="HBC/PDFButton" to="." method="_on_pdf_button_pressed"]
