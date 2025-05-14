@@ -253,7 +253,7 @@ func gen_PDF() -> bool:
 		x += dx
 		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)
 	y = y0
-	for v in range(10):
+	for v in range(m_rounds.size()):
 		var r = m_rounds[v]
 		#print(r.m_pairs)
 		x = x0
