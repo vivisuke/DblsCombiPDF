@@ -15,7 +15,7 @@ func _ready() -> void:
 func gen_match():
 	sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
 	var nr = $HBC/RoundsSpinBox.value
-	for r in range(1, nr-1):
+	for r in range(1, nr):
 		#sch.add_random_round()				# 休憩も含めて完全ランダム
 		#sch.add_rotated_rest_round()		# 順番に休憩
 		sch.add_balanced_pairs_round()		# 順番に休憩、同じペアを回避
