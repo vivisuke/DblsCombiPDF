@@ -13,7 +13,7 @@ func _ready() -> void:
 	sch = Schedule.new()
 	gen_match()
 func gen_match():
-	sch.set_ncnp(m_n_corts, m_n_players)		# コート数、全プレイヤー数
+	sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
 	var nr = $HBC/RoundsSpinBox.value
 	for r in range(1, nr-1):
 		#sch.add_random_round()				# 休憩も含めて完全ランダム
@@ -43,6 +43,7 @@ func _on_cort_spin_box_value_changed(value: float) -> void:
 	pass # Replace with function body.
 func _on_player_spin_box_value_changed(value: float) -> void:
 	m_n_players = int(value)
+	sch.set_ncnp(m_n_corts, m_n_players, m_desc)
 	$HBC/PDFButton.disabled = true
 	pass # Replace with function body.
 
