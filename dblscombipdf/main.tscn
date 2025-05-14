@@ -163,7 +163,7 @@ metadata/_tab_index = 1
 
 [connection signal="value_changed" from="HBC/CortSpinBox" to="." method="_on_cort_spin_box_value_changed"]
 [connection signal="value_changed" from="HBC/PlayerSpinBox" to="." method="_on_player_spin_box_value_changed"]
-[connection signal="value_changed" from="HBC/RoundsSpinBox" to="." method="_on_player_spin_box_value_changed"]
+[connection signal="value_changed" from="HBC/RoundsSpinBox" to="." method="_on_rounds_spin_box_value_changed"]
 [connection signal="toggled" from="HBC/OrderButton" to="." method="_on_order_button_toggled"]
 [connection signal="pressed" from="HBC/MakeButton" to="." method="_on_make_button_pressed"]
 [connection signal="pressed" from="HBC/PDFButton" to="." method="_on_pdf_button_pressed"]

@@ -139,11 +139,34 @@ func add_balanced_pairs_round():	# 同じペアと組まない組み合わせ生
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
 	pass
+func eval_oppo(plist):		# plist: array of Vector2i
+	var ev = 0
+	update_oppo_counts(plist)
+	undo_oppo_counts(plist)
+	return ev
+	
 func add_balanced_oppo_round():	# 対戦相手がバランスする組み合わせ生成
 	update_next_resting()
 	var ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得
 	ar.shuffle()				# ランダムシャフル
 	make_balanced_pairs(ar, 0)
+	#
+	var plist = PackedVector2Array()		# ペアリスト
+	for i in range(0, ar.size(), 2):
+		plist.push_back(Vector2i(ar[i], ar[i+1]))
+	var minev = 1000*1000
+	var plist2 = []
+	for i in range(1000):
+		plist.shuffle()
+		var ev = eval_oppo(plist)
+		if ev < minev:
+			minev = ev
+			plist2 = plist.duplicate()
+	ar = []
+	for v in plist2:
+		ar.push_back(v.x)
+		ar.push_back(v.y)
+	#
 	make_pair_asc(ar)
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)
@@ -196,7 +219,7 @@ func update_oppo_counts(pairs : PackedVector2Array):
 		m_oppo_counts[pairs[i].y][pairs[i+1].y] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].x] += 1
 		m_oppo_counts[pairs[i+1].y][pairs[i].y] += 1
-func undo_oppo_counts():
+func undo_oppo_counts(pairs : PackedVector2Array):
 	pass
 func gen_PDF() -> bool:
 	# Create a new PDF document 

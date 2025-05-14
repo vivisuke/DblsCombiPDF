@@ -4,12 +4,13 @@ extends Node2D
 var sch
 var m_n_corts = 2
 var m_n_players = 10
+var m_n_rounds = 8
 var m_desc = true
 
 func _ready() -> void:
 	$HBC/CortSpinBox.set_value_no_signal(m_n_corts)
 	$HBC/PlayerSpinBox.set_value_no_signal(m_n_players)
-	$HBC/RoundsSpinBox.set_value_no_signal(8)
+	$HBC/RoundsSpinBox.set_value_no_signal(m_n_rounds)
 	sch = Schedule.new()
 	gen_match()
 func gen_match():
@@ -44,6 +45,10 @@ func _on_cort_spin_box_value_changed(value: float) -> void:
 func _on_player_spin_box_value_changed(value: float) -> void:
 	m_n_players = int(value)
 	sch.set_ncnp(m_n_corts, m_n_players, m_desc)
+	$HBC/PDFButton.disabled = true
+	pass # Replace with function body.
+func _on_rounds_spin_box_value_changed(value: float) -> void:
+	m_n_rounds = value
 	$HBC/PDFButton.disabled = true
 	pass # Replace with function body.
 
