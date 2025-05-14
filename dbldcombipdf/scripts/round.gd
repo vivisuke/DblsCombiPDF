@@ -12,10 +12,10 @@ func to_str():
 	var i = 0
 	for p in m_pairs:
 		txt += "%2d %2d "%[p.x+1, p.y+1]
-		if i%2 == 0: txt += ": "
+		if i%2 == 0: txt += "- "
 		else: txt += "| "
 		i += 1
-	txt += "Rest: "
+	#txt += "Rest: "
 	for r in m_resting:
 		txt += "%2d "%(r+1)
 	return txt

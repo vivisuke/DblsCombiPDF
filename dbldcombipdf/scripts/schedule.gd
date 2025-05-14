@@ -109,6 +109,13 @@ func swap(ar: Array, ix1, ix2):
 	var t = ar[ix1]
 	ar[ix1] = ar[ix2]
 	ar[ix2] = t
+func make_pair_asc(ar: Array):
+	for i in range(0, ar.size(), 2):
+		if ar[i] > ar[i+1]: swap(ar, i, i+1)
+	for i in range(0, ar.size(), 4):
+		if ar[i] > ar[i+2]:
+			swap(ar, i, i+2)
+			swap(ar, i+1, i+3)
 func make_balanced_pairs(ar: Array, ix) -> bool:
 	if ix == ar.size(): return true
 	var p1 = ar[ix]
@@ -121,8 +128,9 @@ func make_balanced_pairs(ar: Array, ix) -> bool:
 func add_balanced_pairs_round():	# 同じペアと組まない組み合わせ生成
 	update_next_resting()
 	var ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得
-	#ar.shuffle()				# ランダムシャフル
+	ar.shuffle()				# ランダムシャフル
 	make_balanced_pairs(ar, 0)
+	make_pair_asc(ar)
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
@@ -186,7 +194,8 @@ func gen_PDF() -> bool:
 	#PDF.newFont("Amplify", "res://addons/godotpdf/Amplify.ttf")
 	#PDF.newLabel(1, Vector2(250,30), "GodotPDF is awesome!", 20, "Amplify")
 	PDF.newFont("ZenKakuGothicNew", "res://addons/godotpdf/ZenKakuGothicNew-Medium.ttf")
-	var txt = "Num-Corts: %d, Num-Players: %d"%[m_n_corts, m_n_players]
+	var txt = "%d Corts, %d Players"%[m_n_corts, m_n_players]
+	#var txt = "Num-Corts: %d, Num-Players: %d"%[m_n_corts, m_n_players]
 	#var txt = "%d面 %d人"%[m_n_corts, m_n_players]
 	PDF.newLabel(1, Vector2(300,10), txt, 20, "ZenKakuGothicNew")
 
