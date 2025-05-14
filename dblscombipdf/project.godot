@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="DbldCombiPDF"
+config/name="DblsCombiPDF"
 run/main_scene="uid://cj0cqvsx4ik42"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
