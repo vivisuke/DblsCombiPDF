@@ -14,7 +14,58 @@ var m_oppo_counts = []
 
 const A4_LANDSCAPE = Vector2i(842, 595)
 
+# 配列の指定された範囲を反転させるヘルパー関数
+func _reverse_subarray(arr: Array, start_index: int, end_index: int) -> void:
+	var left = start_index
+	var right = end_index
+	while left < right:
+		var t = arr[left]
+		arr[left] = arr[right]
+		arr[right] = t
+		left += 1
+		right -= 1
+func next_permutation(arr: Array) -> bool:
+	if arr.size() < 2:
+		return false
+	# 1. 右からスキャンし、a[k] < a[k+1] となる最大のインデックス k を見つける。
+	var k = arr.size() - 2
+	while k >= 0 and not (arr[k] < arr[k+1]): # arr[k] >= arr[k+1] と同等
+		k -= 1
+	# 2. そのような k が存在しない場合、現在の順列は辞書順で最後。
+	#    配列を最初の順列（昇順ソートされた状態）に戻し、false を返す。
+	if k < 0:
+		_reverse_subarray(arr, 0, arr.size() - 1)
+		return false
+	# 3. 再度配列を右からスキャンし、a[k] < a[l] となる最大のインデックス l を見つける。
+	var l = arr.size() - 1
+	while not (arr[k] < arr[l]): # arr[k] >= arr[l] と同等
+		l -= 1
+	# 4. a[k] と a[l] を交換する。
+	var t = arr[k]
+	arr[k] = arr[l]
+	arr[l] = t
+	# 5. a[k+1] から配列の末尾までを反転させる。
+	_reverse_subarray(arr, k + 1, arr.size() - 1)
+	return true
+
+func is_legal(ar: Array) -> bool:
+	for i in range(0, ar.size(), 2):
+		if ar[i] >= ar[i+1]: return false		# ペアメンバは昇順
+	for i in range(0, ar.size(), 4):
+		if ar[i] >= ar[i+2]: return false		# マッチペアは昇順
+	for i in range(0, ar.size()-4, 4):
+		if ar[i] >= ar[i+4]: return false		# マッチ先頭プレイヤーは昇順
+	return true
+
 func _init() -> void:
+	var cnt = 0
+	var ar = [1, 2, 3, 4, 5, 6, 7, 8]
+	while true:
+		if is_legal(ar):
+			cnt += 1
+			print(cnt, ": ", ar)
+		if !next_permutation(ar): break;
+	#print(ar)
 	pass
 func to_str():
 	var txt = ""
@@ -142,9 +193,19 @@ func add_balanced_pairs_round():	# 同じペアと組まない組み合わせ生
 func eval_oppo(plist):		# plist: array of Vector2i
 	var ev = 0
 	update_oppo_counts(plist)
+	var ave = calc_oppo_counts_ave()
+	var std = calc_oppo_counts_std(ave)
+	var maxstd = calc_oppo_counts_maxstd()
+	#var max0cnt = calc_oppo_counts_max0cnt()
 	undo_oppo_counts(plist)
-	return ev
-	
+	return std + maxstd * 0.5 #+ max0cnt;
+func do_shuffle(plist: PackedVector2Array):
+	for i in range(plist.size() - 1):
+		var r = randi() % (plist.size() - i)
+		if r != 0:
+			var t = plist[i]
+			plist[i] = plist[i+r]
+			plist[i+r] = t
 func add_balanced_oppo_round():	# 対戦相手がバランスする組み合わせ生成
 	update_next_resting()
 	var ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得
@@ -157,7 +218,9 @@ func add_balanced_oppo_round():	# 対戦相手がバランスする組み合わ�
 	var minev = 1000*1000
 	var plist2 = []
 	for i in range(1000):
-		plist.shuffle()
+		#print(plist)
+		do_shuffle(plist)
+		#print(plist)
 		var ev = eval_oppo(plist)
 		if ev < minev:
 			minev = ev
@@ -191,6 +254,31 @@ func calc_oppo_counts_std(ave) -> float:
 				var d = m_oppo_counts[p1][p2] - ave
 				sum2 += d * d
 	return sqrt(sum2/(m_n_players * (m_n_players-1)))
+# プレイヤーごとに標準偏差を計算し、その最大値を返す
+func calc_oppo_counts_maxstd() -> float:
+	var maxstd = 0.0
+	for p1 in range(m_n_players):
+		var sum = 0
+		var sum2 = 0
+		for p2 in range(m_n_players):
+			if p1 != p2:
+				var cnt = m_oppo_counts[p1][p2]
+				sum += cnt
+				sum2 += cnt * cnt
+		var ave = sum / (m_n_players - 1)
+		var std = sqrt(sum2/(m_n_players - 1) - ave * ave)
+		maxstd = max(maxstd, std)
+	return maxstd
+# プレイヤーごとに非対戦プレイヤー数をカウントし、その最大値を返す
+func calc_oppo_counts_max0cnt() -> float:
+	var max0cnt = 0.0
+	for p1 in range(m_n_players):
+		var zcnt = 0
+		for p2 in range(m_n_players):
+			if p1 != p2 && m_oppo_counts[p1][p2] == 0:
+				zcnt += 0
+		max0cnt = max(max0cnt, zcnt)
+	return max0cnt
 func init_pair_counts():
 	m_pair_counts.resize(m_n_players)
 	for i in range(m_n_players):
@@ -280,7 +368,7 @@ func gen_PDF() -> bool:
 		var r = m_rounds[v]
 		#print(r.m_pairs)
 		x = x0
-		for h in range(3):
+		for h in range(m_n_corts):
 			txt = "%2d %2d - %2d %2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
 			PDF.newLabel(1, Vector2(x+40, y+5), txt, 40, "ZenKakuGothicNew")
 			x += dx
@@ -288,7 +376,7 @@ func gen_PDF() -> bool:
 	#
 	# Set the path to export the pdf to
 	# The target file MUST be of the .pdf type
-	var path = getDesktopPath() + "/GodotPDF.pdf"
+	var path = getDesktopPath() + "/GodotPDF%d%02d.pdf"%[m_n_corts, m_n_players]
 	
 	# Export the pdf data
 	# Images will ALWAYS draw behind boxes, which will ALWAYS draw behind text
