@@ -51,7 +51,7 @@
 0049 ◎ C 05/15 05/18 0.001│ToDo│PDFファイル名：コート数・プレイヤー数を含める
 0050 ◎ C 05/15 05/18 0.001│問題│２コート、10人でPDF出力しようとするとクラッシュする
 0051 ◎ C 05/18 05/18 0.001│ToDo│Schedule.add_most_balanced_oppo_round()：全パターン検査
-0052 ● C 05/18            │ToDo│
+0052 ◎ C 05/18 05/18 0.001│ToDo│Schedule.add_most_balanced_oppo_round()：対戦回数表の数値が不正（100以上）になる
 0053 ● C 05/18            │ToDo│
 0054 ● C 05/18            │ToDo│
 0055 ● C 05/18            │ToDo│
