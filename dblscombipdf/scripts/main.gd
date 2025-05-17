@@ -45,8 +45,9 @@ func gen_match():
 	for r in range(1, nr):
 		#sch.add_random_round()				# 休憩も含めて完全ランダム
 		#sch.add_rotated_rest_round()		# 順番に休憩
-		sch.add_balanced_pairs_round()		# 順番に休憩、同じペアを回避
+		#sch.add_balanced_pairs_round()		# 順番に休憩、同じペアを回避
 		#sch.add_balanced_oppo_round()		# 順番に休憩、同じペアを回避、対戦相手も平均的に
+		sch.add_most_balanced_oppo_round()		# 順番に休憩、同じペアを回避、対戦相手も平均的に
 	$Schedule.text = sch.to_str()
 	$TabContainer/PairCounts.text = sch.pair_counts_str()
 	var ave = sch.calc_oppo_counts_ave()

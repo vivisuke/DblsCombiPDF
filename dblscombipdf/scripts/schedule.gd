@@ -93,9 +93,9 @@ func oppo_counts_str():
 		txt += "%2d: "%(y+1)
 		for x in range(m_n_players):
 			if x != y:
-				txt += "%2d"%m_oppo_counts[y][x]
+				txt += " %2d"%m_oppo_counts[y][x]
 			else:
-				txt += " -"
+				txt += "  -"
 		txt += "\n";
 	return txt
 func set_ncnp(n_corts, n_players, desc=true):
@@ -190,7 +190,7 @@ func add_balanced_pairs_round():	# 同じペアと組まない組み合わせ生
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
 	pass
-func eval_oppo(plist):		# plist: array of Vector2i
+func eval_oppo(plist: PackedVector2Array):		# plist: array of Vector2i
 	var ev = 0
 	update_oppo_counts(plist)
 	var ave = calc_oppo_counts_ave()
@@ -231,6 +231,49 @@ func add_balanced_oppo_round():	# 対戦相手がバランスする組み合わ�
 		ar.push_back(v.y)
 	#
 	make_pair_asc(ar)
+	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
+		ar.push_back((m_first_resting_pid + i) % m_n_players)
+	var round = Round.new()
+	round.set_round(ar, m_n_resting)
+	m_rounds.push_back(round)
+	update_pair_counts(round.m_pairs)
+	update_oppo_counts(round.m_pairs)
+	pass
+func is_pair_balanced(ar: Array) ->bool:
+	for i in range(0, ar.size(), 2):
+		if m_pair_counts[ar[i]][ar[i+1]] != 0:
+			return false
+	return true
+func make_balanced_pairs_list(ar: Array) -> Array:
+	var arr = []
+	while true:
+		if is_legal(ar):
+			if is_pair_balanced(ar):
+				arr.push_back(ar.duplicate())
+		if !next_permutation(ar): break;
+	return arr
+func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
+	if m_n_corts > 2:
+		add_balanced_oppo_round()
+		return
+	update_next_resting()
+	var ar: Array = get_not_resting_players_array()	# 非休憩プレヤーリスト取得（プレイヤーid昇順）
+	var arr = make_balanced_pairs_list(ar)	# ペアが均等・正規化された組み合わせ全リスト取得
+	var minev = 1000*1000
+	var plist2 = []
+	for lst in arr:
+		var pva = PackedVector2Array()
+		for i in range(0, lst.size(), 2):
+			pva.push_back(Vector2(lst[i], lst[i+1]))
+		var ev = eval_oppo(pva)
+		if ev < minev:
+			minev = ev
+			plist2 = pva.duplicate()
+	ar = []
+	for v in plist2:
+		ar.push_back(v.x)
+		ar.push_back(v.y)
+	#make_pair_asc(ar)
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
