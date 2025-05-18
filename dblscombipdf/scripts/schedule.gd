@@ -93,9 +93,9 @@ func oppo_counts_str():
 		txt += "%2d: "%(y+1)
 		for x in range(m_n_players):
 			if x != y:
-				txt += " %2d"%m_oppo_counts[y][x]
+				txt += "%2d"%m_oppo_counts[y][x]
 			else:
-				txt += "  -"
+				txt += " -"
 		txt += "\n";
 	return txt
 func set_ncnp(n_corts, n_players, desc=true):
@@ -408,33 +408,38 @@ func gen_PDF() -> bool:
 	#PDF.newBox(1, Vector2(100, 100), Vector2(200, 300), Color(1.0,1.0,1.0,1.0), Color(0.0,1.0,0.0,0.0), 3)
 	var x0 = 10
 	var y0 = 40
-	var wd = A4_LANDSCAPE.x - 20
-	var ht = A4_LANDSCAPE.y - 50
+	var wd: float = A4_LANDSCAPE.x - 20
+	var ht: float = A4_LANDSCAPE.y - 50
 	PDF.newBox(1, Vector2(x0, y0), Vector2(wd, ht), Color.WHITE, Color.BLACK, 1)
 	var dy = ht / 10.0
 	var y = y0
 	for i in range(9):
 		y += dy
-		PDF.newBox(1, Vector2(x0, y), Vector2(wd, 0), Color.WHITE, Color.BLACK, 0)
-	var dx = wd / 3.0
+		PDF.newBox(1, Vector2(x0, y), Vector2(wd, 0), Color.WHITE, Color.BLACK, 0)		# 横罫線
+	var n_clmn = m_n_corts		# カラム数
+	if m_n_resting != 0: n_clmn += 1
+	print("n_clmn = ", n_clmn)
+	var dx = wd / n_clmn
 	var x = x0
 	var pid = 0
-	for i in range(3):
-		#txt = "%d %d - %d %d" % [pid+1, pid+2, pid+3, pid+4]
-		#PDF.newLabel(1, Vector2(x+60, y0+5), txt, 40, "ZenKakuGothicNew")
-		#pid += 4
-		if i == 2: break;
+	for i in range(n_clmn-1):
 		x += dx
-		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)
+		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)		# 縦罫線
 	y = y0
+	var ofst = 40 if n_clmn < 4 else 0
 	for v in range(m_rounds.size()):
 		var r = m_rounds[v]
 		#print(r.m_pairs)
 		x = x0
 		for h in range(m_n_corts):
 			txt = "%2d %2d - %2d %2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
-			PDF.newLabel(1, Vector2(x+40, y+5), txt, 40, "ZenKakuGothicNew")
+			PDF.newLabel(1, Vector2(x+ofst, y+5), txt, 40, "ZenKakuGothicNew")
 			x += dx
+		if m_n_resting != 0:
+			txt = " R: "
+			for p in r.m_resting:
+				txt += "%d "%(p+1)
+			PDF.newLabel(1, Vector2(x+ofst, y+5), txt, 40, "ZenKakuGothicNew")
 		y += dy
 	#
 	# Set the path to export the pdf to
