@@ -58,14 +58,14 @@ func is_legal(ar: Array) -> bool:
 	return true
 
 func _init() -> void:
-	var cnt = 0
-	var ar = [1, 2, 3, 4, 5, 6, 7, 8]
-	while true:
-		if is_legal(ar):
-			cnt += 1
-			print(cnt, ": ", ar)
-		if !next_permutation(ar): break;
-	#print(ar)
+	##var cnt = 0
+	##var ar = [1, 2, 3, 4, 5, 6, 7, 8]
+	##while true:
+	##	if is_legal(ar):
+	##		cnt += 1
+	##		print(cnt, ": ", ar)
+	##	if !next_permutation(ar): break;
+	###print(ar)
 	pass
 func to_str():
 	var txt = ""
@@ -240,19 +240,27 @@ func add_balanced_oppo_round():	# 対戦相手がバランスする組み合わ�
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
 	pass
-func is_pair_balanced(ar: Array) ->bool:
+func is_pair_balanced(ar: Array, limit) ->bool:
 	for i in range(0, ar.size(), 2):
-		if m_pair_counts[ar[i]][ar[i+1]] != 0:
+		if m_pair_counts[ar[i]][ar[i+1]] != limit:
 			return false
 	return true
 func make_balanced_pairs_list(ar: Array) -> Array:
 	var arr = []
-	while true:
-		if is_legal(ar):
-			if is_pair_balanced(ar):
-				arr.push_back(ar.duplicate())
-		if !next_permutation(ar): break;
+	for limit in range(10):
+		while true:
+			if is_legal(ar):
+				if is_pair_balanced(ar, limit):
+					arr.push_back(ar.duplicate())
+			if !next_permutation(ar): break;
+		if !arr.is_empty(): break
 	return arr
+func shuffle_match(ar: Array):
+	if (randi() & 1) == 1:
+		swap(ar, 0, 4)
+		swap(ar, 1, 5)
+		swap(ar, 2, 6)
+		swap(ar, 3, 7)
 func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
 	if m_n_corts > 2:
 		add_balanced_oppo_round()
@@ -267,15 +275,16 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 		for i in range(0, lst.size(), 2):
 			pva.push_back(Vector2(lst[i], lst[i+1]))
 		var ev = eval_oppo(pva)
-		print(m_oppo_counts)
+		#print(m_oppo_counts)
 		if ev < minev:
 			minev = ev
 			plist2 = pva.duplicate()
-	print(m_oppo_counts)
+	#print(m_oppo_counts)
 	ar = []
 	for v in plist2:
 		ar.push_back(v.x)
 		ar.push_back(v.y)
+	shuffle_match(ar)				# コート単位でシャフル
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
