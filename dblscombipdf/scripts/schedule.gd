@@ -58,14 +58,16 @@ func is_legal(ar: Array) -> bool:
 	return true
 
 func _init() -> void:
-	##var cnt = 0
-	##var ar = [1, 2, 3, 4, 5, 6, 7, 8]
-	##while true:
-	##	if is_legal(ar):
-	##		cnt += 1
-	##		print(cnt, ": ", ar)
-	##	if !next_permutation(ar): break;
-	###print(ar)
+	if true:
+		var cnt = 0
+		var ar = [1, 2, 3, 4, 5, 6, 7, 8]
+		while true:
+			if is_legal(ar):
+				cnt += 1
+				#print(cnt, ": ", ar)
+			if !next_permutation(ar): break;
+		print(cnt, ": ", ar)
+		#print(ar)
 	pass
 func to_str():
 	var txt = ""
@@ -133,6 +135,7 @@ func update_next_resting():
 		m_first_resting_pid += m_n_resting
 		if m_first_resting_pid >= m_n_players: m_first_resting_pid -= m_n_players
 	m_last_resting_pid = (m_first_resting_pid + m_n_resting) % m_n_players
+# 非休憩プレヤー（プレイヤー番号順）リスト取得
 func get_not_resting_players_array() -> Array:
 	var ar = []
 	for i in range(m_n_players):
@@ -262,28 +265,53 @@ func shuffle_match(ar: Array):
 		swap(ar, 2, 6)
 		swap(ar, 3, 7)
 func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
-	if m_n_corts > 2:
+	print("add_most_balanced_oppo_round():")
+	if m_n_corts > 3:
 		add_balanced_oppo_round()
 		return
 	update_next_resting()
 	var ar: Array = get_not_resting_players_array()	# 非休憩プレヤーリスト取得（プレイヤーid昇順）
-	var arr = make_balanced_pairs_list(ar)	# ペアが均等・正規化された組み合わせ全リスト取得
-	var minev = 1000*1000
-	var plist2 = []
-	for lst in arr:
-		var pva = PackedVector2Array()
-		for i in range(0, lst.size(), 2):
-			pva.push_back(Vector2(lst[i], lst[i+1]))
-		var ev = eval_oppo(pva)
+	if m_n_corts == 2:
+		var arr = make_balanced_pairs_list(ar)	# ペアが均等・正規化された組み合わせ全リスト取得
+		var minev = 1000*1000
+		var plist2 = []
+		for lst in arr:
+			var pva = PackedVector2Array()
+			for i in range(0, lst.size(), 2):
+				pva.push_back(Vector2(lst[i], lst[i+1]))
+			var ev = eval_oppo(pva)
+			#print(m_oppo_counts)
+			if ev < minev:
+				minev = ev
+				plist2 = pva.duplicate()
 		#print(m_oppo_counts)
-		if ev < minev:
-			minev = ev
-			plist2 = pva.duplicate()
-	#print(m_oppo_counts)
-	ar = []
-	for v in plist2:
-		ar.push_back(v.x)
-		ar.push_back(v.y)
+		ar = []
+		for v in plist2:
+			ar.push_back(v.x)
+			ar.push_back(v.y)
+	elif m_n_corts == 3:
+		ar.shuffle()				# ランダムシャフル
+		make_balanced_pairs(ar, 0)
+		#
+		var plist0 = PackedVector2Array()		# ペアリスト
+		for i in range(0, ar.size(), 2):
+			plist0.push_back(Vector2i(ar[i], ar[i+1]))
+		var minev = 1000*1000
+		var plist2 = []
+		var seqar = [0, 1, 2, 3, 4, 5]
+		while true:
+			var plist = PackedVector2Array()		# ペアリスト
+			for i in range(seqar.size()):
+				plist.push_back(plist0[seqar[i]])
+			var ev = eval_oppo(plist)
+			if ev < minev:
+				minev = ev
+				plist2 = plist.duplicate()
+			if !next_permutation(seqar): break;
+		ar = []
+		for v in plist2:
+			ar.push_back(v.x)
+			ar.push_back(v.y)
 	shuffle_match(ar)				# コート単位でシャフル
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
 		ar.push_back((m_first_resting_pid + i) % m_n_players)

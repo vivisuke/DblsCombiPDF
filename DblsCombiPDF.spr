@@ -54,7 +54,7 @@
 0052 ◎ C 05/18 05/18 0.001│ToDo│Schedule.add_most_balanced_oppo_round()：対戦回数表の数値が不正（100以上）になる
 0053 ◎ C 05/18 05/18 0.001│ToDo│Schedule.add_most_balanced_oppo_round()：組み合わせをコートごとにシャフル
 0054 ◎ C 05/18 05/18 0.001│問題│add_most_balanced_oppo_round()：２面・８人の時、8ラウンド目組み合わせが生成されない
-0055 ● C 05/18            │ToDo│add_most_balanced_oppo_round()：３面対応
+0055 ◎ C 05/18 05/21 0.001│ToDo│add_most_balanced_oppo_round()：３面対応
 0056 ◎ C 05/18 05/19 0.001│問題│PDF：コート数3以上の場合、休憩中プレイヤー番号が表示されない
 0057 ● C 05/18            │ToDo│
 0058 ● C 05/18            │ToDo│
