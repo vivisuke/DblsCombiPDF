@@ -292,6 +292,7 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 	elif m_n_corts == 3:
 		ar.shuffle()				# ランダムシャフル
 		make_balanced_pairs(ar, 0)
+		make_pair_asc(ar)
 		#
 		var plist0 = PackedVector2Array()		# ペアリスト
 		for i in range(0, ar.size(), 2):
