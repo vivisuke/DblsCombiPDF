@@ -258,12 +258,31 @@ func make_balanced_pairs_list(ar: Array) -> Array:
 			if !next_permutation(ar): break;
 		if !arr.is_empty(): break
 	return arr
-func shuffle_match(ar: Array):
-	if (randi() & 1) == 1:
-		swap(ar, 0, 4)
-		swap(ar, 1, 5)
-		swap(ar, 2, 6)
-		swap(ar, 3, 7)
+func shuffle_match(ar: Array) -> Array:
+	var arx = []
+	for i in range(ar.size()/4): arx.push_back(i)
+	arx.shuffle()				# ランダムシャフル
+	var ar2 = []
+	for ix in arx:
+		ar2.push_back(ar[ix*4])
+		ar2.push_back(ar[ix*4+1])
+		ar2.push_back(ar[ix*4+2])
+		ar2.push_back(ar[ix*4+3])
+	#ar = ar2.duplicate()
+	#if (randi() & 1) == 1:
+	#	swap(ar, 0, 4)
+	#	swap(ar, 1, 5)
+	#	swap(ar, 2, 6)
+	#	swap(ar, 3, 7)
+	return ar2
+func is_legal_pva(ar: Array) -> bool:
+	#for i in range(0, ar.size(), 2):
+	#	if ar[i] >= ar[i+1]: return false		# ペアメンバは昇順
+	for i in range(0, ar.size(), 2):
+		if ar[i].x >= ar[i+1].x: return false		# マッチペアは昇順
+	for i in range(0, ar.size()-2, 2):
+		if ar[i].x >= ar[i+2].x: return false		# マッチ先頭プレイヤーは昇順
+	return true
 func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
 	print("add_most_balanced_oppo_round():")
 	if m_n_corts > 3:
@@ -292,7 +311,7 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 	elif m_n_corts == 3:
 		ar.shuffle()				# ランダムシャフル
 		make_balanced_pairs(ar, 0)
-		make_pair_asc(ar)
+		make_pair_asc(ar)			# ペアを昇順に
 		#
 		var plist0 = PackedVector2Array()		# ペアリスト
 		for i in range(0, ar.size(), 2):
@@ -304,20 +323,21 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 			var plist = PackedVector2Array()		# ペアリスト
 			for i in range(seqar.size()):
 				plist.push_back(plist0[seqar[i]])
-			var ev = eval_oppo(plist)
-			if ev < minev:
-				minev = ev
-				plist2 = plist.duplicate()
+			if is_legal_pva(plist):
+				var ev = eval_oppo(plist)
+				if ev < minev:
+					minev = ev
+					plist2 = plist.duplicate()
 			if !next_permutation(seqar): break;
 		ar = []
 		for v in plist2:
 			ar.push_back(v.x)
 			ar.push_back(v.y)
-	shuffle_match(ar)				# コート単位でシャフル
+	var ar2 = shuffle_match(ar)				# コート単位でシャフル
 	for i in range(m_n_resting):	# 休憩中プレイヤーid追加
-		ar.push_back((m_first_resting_pid + i) % m_n_players)
+		ar2.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
-	round.set_round(ar, m_n_resting)
+	round.set_round(ar2, m_n_resting)
 	m_rounds.push_back(round)
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
