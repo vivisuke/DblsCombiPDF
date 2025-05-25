@@ -41,7 +41,7 @@ func gen_match12():
 	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.2f, std = %.2f"%[ave, std])
 func gen_match():
 	sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
-	var nr = $HBC/RoundsSpinBox.value
+	var nr = $HBC/RoundsSpinBox.value					# ラウンド数
 	for r in range(1, nr):
 		#sch.add_random_round()				# 休憩も含めて完全ランダム
 		#sch.add_rotated_rest_round()		# 順番に休憩

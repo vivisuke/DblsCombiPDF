@@ -61,6 +61,7 @@ func _init() -> void:
 	if true:
 		var cnt = 0
 		var ar = [1, 2, 3, 4, 5, 6, 7, 8]
+		#var ar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 		while true:
 			if is_legal(ar):
 				cnt += 1
@@ -290,7 +291,7 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 		return
 	update_next_resting()
 	var ar: Array = get_not_resting_players_array()	# 非休憩プレヤーリスト取得（プレイヤーid昇順）
-	if m_n_corts == 2:
+	if m_n_corts < 3:
 		var arr = make_balanced_pairs_list(ar)	# ペアが均等・正規化された組み合わせ全リスト取得
 		var minev = 1000*1000
 		var plist2 = []
@@ -309,26 +310,27 @@ func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする�
 			ar.push_back(v.x)
 			ar.push_back(v.y)
 	elif m_n_corts == 3:
-		ar.shuffle()				# ランダムシャフル
-		make_balanced_pairs(ar, 0)
-		make_pair_asc(ar)			# ペアを昇順に
-		#
-		var plist0 = PackedVector2Array()		# ペアリスト
-		for i in range(0, ar.size(), 2):
-			plist0.push_back(Vector2i(ar[i], ar[i+1]))
 		var minev = 1000*1000
 		var plist2 = []
-		var seqar = [0, 1, 2, 3, 4, 5]
-		while true:
-			var plist = PackedVector2Array()		# ペアリスト
-			for i in range(seqar.size()):
-				plist.push_back(plist0[seqar[i]])
-			if is_legal_pva(plist):
-				var ev = eval_oppo(plist)
-				if ev < minev:
-					minev = ev
-					plist2 = plist.duplicate()
-			if !next_permutation(seqar): break;
+		ar.shuffle()				# ランダムシャフル
+		for k in range(1):
+			make_balanced_pairs(ar, 0)
+			make_pair_asc(ar)			# ペアを昇順に
+			#
+			var plist0 = PackedVector2Array()		# ペアリスト
+			for i in range(0, ar.size(), 2):
+				plist0.push_back(Vector2i(ar[i], ar[i+1]))
+			var seqar = [0, 1, 2, 3, 4, 5]
+			while true:
+				var plist = PackedVector2Array()		# ペアリスト
+				for i in range(seqar.size()):
+					plist.push_back(plist0[seqar[i]])
+				if is_legal_pva(plist):
+					var ev = eval_oppo(plist)
+					if ev < minev:
+						minev = ev
+						plist2 = plist.duplicate()
+				if !next_permutation(seqar): break;
 		ar = []
 		for v in plist2:
 			ar.push_back(v.x)
