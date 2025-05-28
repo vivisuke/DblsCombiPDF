@@ -484,7 +484,7 @@ func gen_PDF() -> bool:
 		#print(r.m_pairs)
 		x = x0
 		for h in range(m_n_corts):
-			txt = "%2d %2d - %2d %2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
+			txt = "%2d,%2d - %2d,%2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
 			PDF.newLabel(1, Vector2(x+ofst, y+5), txt, 40, "ZenKakuGothicNew")
 			x += dx
 		if m_n_resting != 0:

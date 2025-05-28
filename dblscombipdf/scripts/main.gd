@@ -16,6 +16,15 @@ const ar_table = [
 		[2, 7, 4, 8, 1, 6, 3, 11, 0, 5, 9, 10],
 		[0, 6, 4, 9, 1, 10, 7, 11, 3, 5, 2, 8],
 	]
+const ar_table_312 = [
+		[2, 7, 9, 10, 0, 11, 3, 4, 1, 8, 5, 6],
+		[0, 10, 1, 7, 4, 9, 5, 8, 2, 6, 3, 11],
+		[1, 10, 3, 5, 0, 9, 4, 6, 2, 8, 7, 11],
+		[1, 3, 7, 8, 0, 5, 9, 11, 2, 4, 6, 10],
+		[6, 11, 7, 10, 3, 8, 5, 9, 0, 4, 1, 2],
+		[3, 11, 4, 6, 1, 9, 7, 10, 0, 2, 5, 8],
+		[1, 8, 2, 4, 0, 5, 10, 11, 3, 6, 7, 9],
+	]
 
 
 func _ready() -> void:
@@ -25,20 +34,25 @@ func _ready() -> void:
 	sch = Schedule.new()
 	gen_match12()
 func gen_match12():
-	##m_n_corts = 3
-	##m_n_players = 12
-	sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
-	##for ar in ar_table:
-	##	var round = Round.new()
-	##	round.set_round(ar, 0)
-	##	sch.m_rounds.push_back(round)
-	##	sch.update_pair_counts(round.m_pairs)
-	##	sch.update_oppo_counts(round.m_pairs)
+	if false:
+		sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
+	else:
+		m_n_corts = 3
+		m_n_players = 12
+		sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
+		for ar in ar_table_312:
+			var round = Round.new()
+			round.set_round(ar, 0)
+			sch.m_rounds.push_back(round)
+			sch.update_pair_counts(round.m_pairs)
+			sch.update_oppo_counts(round.m_pairs)
+		$HBC/PDFButton.disabled = false
 	$Schedule.text = sch.to_str()
 	$TabContainer/PairCounts.text = sch.pair_counts_str()
 	var ave = sch.calc_oppo_counts_ave()
 	var std = sch.calc_oppo_counts_std(ave)
-	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.2f, std = %.2f"%[ave, std])
+	sch.m_oc_std = std
+	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.3f, std = %.3f"%[ave, std])
 func gen_match():
 	sch.set_ncnp(m_n_corts, m_n_players, m_desc)		# コート数、全プレイヤー数
 	var nr = $HBC/RoundsSpinBox.value					# ラウンド数
