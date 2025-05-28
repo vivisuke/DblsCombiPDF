@@ -52,8 +52,34 @@ func gen_match():
 	$TabContainer/PairCounts.text = sch.pair_counts_str()
 	var ave = sch.calc_oppo_counts_ave()
 	var std = sch.calc_oppo_counts_std(ave)
-	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.2f, std = %.2f"%[ave, std])
+	sch.m_oc_std = std
+	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.3f, std = %.3f"%[ave, std])
 	#print("calc_oppo_counts_ave() = ", sch.calc_oppo_counts_ave())
+	#
+	if false:
+	#for loop in range(5):
+		var minstd = 9999
+		var minr
+		for r in range(1, nr, 1):
+			sch.undo_oppo_counts(sch.m_rounds[r].m_pairs)
+			ave = sch.calc_oppo_counts_ave()
+			std = sch.calc_oppo_counts_std(ave)
+			if std < minstd:
+				minstd = std
+				minr = r
+			print("%d: std = %.3f"%[r+1, std])
+			sch.update_oppo_counts(sch.m_rounds[r].m_pairs)
+			#sch.m_rounds.remove_at(1)
+			#print(sch.to_str())
+		print("min %d: std = %.3f"%[minr+1, minstd])
+		sch.undo_oppo_counts(sch.m_rounds[minr].m_pairs)
+		sch.m_rounds.remove_at(minr)
+		sch.add_most_balanced_oppo_round()
+		ave = sch.calc_oppo_counts_ave()
+		std = sch.calc_oppo_counts_std(ave)
+		print("std = %.3f"%std)
+	print(sch.to_str())
+	print(sch.oppo_counts_str())
 	pass
 
 

@@ -8,6 +8,7 @@ var m_n_resting = 0
 var m_first_resting_pid = 0
 var m_last_resting_pid = 0			# [first, last) 範囲が休憩中
 var m_rest_order_desc = true		# 休憩順：降順・昇順
+var m_oc_std = 0.0					# oppo_counts 標準偏差
 var m_rounds = []
 var m_pair_counts = []
 var m_oppo_counts = []
@@ -199,11 +200,11 @@ func eval_oppo(plist: PackedVector2Array):		# plist: array of Vector2i
 	var ev = 0
 	update_oppo_counts(plist)
 	var ave = calc_oppo_counts_ave()
-	var std = calc_oppo_counts_std(ave)
+	m_oc_std = calc_oppo_counts_std(ave)
 	var maxstd = calc_oppo_counts_maxstd()
 	#var max0cnt = calc_oppo_counts_max0cnt()
 	undo_oppo_counts(plist)
-	return std + maxstd * 0.5 #+ max0cnt;
+	return m_oc_std + maxstd * 0.5 #+ max0cnt;
 func do_shuffle(plist: PackedVector2Array):
 	for i in range(plist.size() - 1):
 		var r = randi() % (plist.size() - i)
@@ -450,9 +451,9 @@ func gen_PDF() -> bool:
 	#PDF.newFont("Amplify", "res://addons/godotpdf/Amplify.ttf")
 	#PDF.newLabel(1, Vector2(250,30), "GodotPDF is awesome!", 20, "Amplify")
 	PDF.newFont("ZenKakuGothicNew", "res://addons/godotpdf/ZenKakuGothicNew-Medium.ttf")
-	var txt = "%d Corts, %d Players"%[m_n_corts, m_n_players]
+	var txt = "%d Corts, %d Players (std = %.3f)"%[m_n_corts, m_n_players, m_oc_std]
 	#var txt = "Num-Corts: %d, Num-Players: %d"%[m_n_corts, m_n_players]
-	#var txt = "%d面 %d人"%[m_n_corts, m_n_players]
+	#var txt = "%d面 %d人 (std = %.3f)"%[m_n_corts, m_n_players, m_oc_std]
 	PDF.newLabel(1, Vector2(300,10), txt, 20, "ZenKakuGothicNew")
 
 	# box(position=Vector2i(0,0), size=Vector2i(0,0), fill=Color(0.0,0.0,0.0,1.0), border=Color(0.0,0.0,0.0,1.0), borderWidth=10) -> void:
