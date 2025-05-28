@@ -70,8 +70,8 @@ func gen_match():
 	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.3f, std = %.3f"%[ave, std])
 	#print("calc_oppo_counts_ave() = ", sch.calc_oppo_counts_ave())
 	#
-	if false:
-	#for loop in range(5):
+	#if false:
+	for loop in range(7):
 		var minstd = 9999
 		var minr
 		for r in range(1, nr, 1):
@@ -91,9 +91,13 @@ func gen_match():
 		sch.add_most_balanced_oppo_round()
 		ave = sch.calc_oppo_counts_ave()
 		std = sch.calc_oppo_counts_std(ave)
+		sch.m_oc_std = std
 		print("std = %.3f"%std)
-	print(sch.to_str())
-	print(sch.oppo_counts_str())
+	$Schedule.text = sch.to_str()
+	$TabContainer/PairCounts.text = sch.pair_counts_str()
+	$TabContainer/OppoCounts.text = sch.oppo_counts_str() + ("ave = %.3f, std = %.3f"%[ave, std])
+	#print(sch.to_str())
+	#print(sch.oppo_counts_str())
 	pass
 
 
