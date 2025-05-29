@@ -285,13 +285,19 @@ func is_legal_pva(ar: Array) -> bool:
 	for i in range(0, ar.size()-2, 2):
 		if ar[i].x >= ar[i+2].x: return false		# マッチ先頭プレイヤーは昇順
 	return true
-func add_most_balanced_oppo_round():	# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
+# 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
+func add_most_balanced_oppo_round(players : Array = [], frpid = -1):
 	print("add_most_balanced_oppo_round():")
 	if m_n_corts > 3:
 		add_balanced_oppo_round()
 		return
-	update_next_resting()
-	var ar: Array = get_not_resting_players_array()	# 非休憩プレヤーリスト取得（プレイヤーid昇順）
+	var ar: Array
+	if players.is_empty():
+		update_next_resting()
+		ar = get_not_resting_players_array()	# 非休憩プレヤーリスト取得（プレイヤーid昇順）
+	else:
+		ar = players
+		m_first_resting_pid = frpid
 	if m_n_corts < 3:
 		var arr = make_balanced_pairs_list(ar)	# ペアが均等・正規化された組み合わせ全リスト取得
 		var minev = 1000*1000

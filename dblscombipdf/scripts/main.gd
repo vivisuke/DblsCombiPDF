@@ -87,8 +87,15 @@ func gen_match():
 			#print(sch.to_str())
 		print("min %d: std = %.3f"%[minr+1, minstd])
 		sch.undo_oppo_counts(sch.m_rounds[minr].m_pairs)
+		var players = []
+		for i in range(m_n_corts*2):
+			players.push_back(sch.m_rounds[minr].m_pairs[i].x)
+			players.push_back(sch.m_rounds[minr].m_pairs[i].y)
+		var frpid = -1
+		if !sch.m_rounds[minr].m_resting.is_empty():
+			frpid = sch.m_rounds[minr].m_resting[0]
 		sch.m_rounds.remove_at(minr)
-		sch.add_most_balanced_oppo_round()
+		sch.add_most_balanced_oppo_round(players, frpid)
 		ave = sch.calc_oppo_counts_ave()
 		std = sch.calc_oppo_counts_std(ave)
 		sch.m_oc_std = std
