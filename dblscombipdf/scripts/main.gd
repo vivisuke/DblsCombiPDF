@@ -94,8 +94,8 @@ func gen_match():
 		var frpid = -1
 		if !sch.m_rounds[minr].m_resting.is_empty():
 			frpid = sch.m_rounds[minr].m_resting[0]
-		sch.m_rounds.remove_at(minr)
-		sch.add_most_balanced_oppo_round(players, frpid)
+		#sch.m_rounds.remove_at(minr)
+		sch.add_most_balanced_oppo_round(players, frpid, minr)
 		ave = sch.calc_oppo_counts_ave()
 		std = sch.calc_oppo_counts_std(ave)
 		sch.m_oc_std = std

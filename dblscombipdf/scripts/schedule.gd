@@ -286,7 +286,7 @@ func is_legal_pva(ar: Array) -> bool:
 		if ar[i].x >= ar[i+2].x: return false		# マッチ先頭プレイヤーは昇順
 	return true
 # 対戦相手が最もバランスする組み合わせ生成（モンテカルロではなく全探索）
-func add_most_balanced_oppo_round(players : Array = [], frpid = -1):
+func add_most_balanced_oppo_round(players : Array = [], frpid = -1, rix = -1):
 	print("add_most_balanced_oppo_round():")
 	if m_n_corts > 3:
 		add_balanced_oppo_round()
@@ -347,7 +347,10 @@ func add_most_balanced_oppo_round(players : Array = [], frpid = -1):
 		ar2.push_back((m_first_resting_pid + i) % m_n_players)
 	var round = Round.new()
 	round.set_round(ar2, m_n_resting)
-	m_rounds.push_back(round)
+	if rix < 0:
+		m_rounds.push_back(round)
+	else:
+		m_rounds[rix] = round
 	update_pair_counts(round.m_pairs)
 	update_oppo_counts(round.m_pairs)
 	pass
@@ -478,23 +481,31 @@ func gen_PDF() -> bool:
 	if m_n_resting != 0: n_clmn += 1
 	print("n_clmn = ", n_clmn)
 	var dx = wd / n_clmn
+	if m_n_resting != 0:
+		dx += 20
 	var x = x0
 	var pid = 0
 	for i in range(n_clmn-1):
 		x += dx
 		PDF.newBox(1, Vector2(x, y0), Vector2(0, ht), Color.WHITE, Color.BLACK, 0)		# 縦罫線
-	y = y0
-	var ofst = 40 if n_clmn < 4 else 0
+	for h in range(m_n_corts):
+		txt = "#%d"%(h+1)
+		PDF.newLabel(1, Vector2(h*dx+dx/2-20, y0+5), txt, 40, "ZenKakuGothicNew")
+	var ofst = 100 if n_clmn < 4 else 0
+	if m_n_resting != 0:	# 休憩あり
+		PDF.newLabel(1, Vector2(m_n_corts*dx+ofst, y0+5), "  Rest", 40, "ZenKakuGothicNew")
+	x = x0
+	y = y0 + dy
 	for v in range(m_rounds.size()):
 		var r = m_rounds[v]
 		#print(r.m_pairs)
 		x = x0
 		for h in range(m_n_corts):
-			txt = "%2d,%2d - %2d,%2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
-			PDF.newLabel(1, Vector2(x+ofst, y+5), txt, 40, "ZenKakuGothicNew")
+			txt = "%d,%2d - %d,%2d" % [r.m_pairs[h*2].x+1, r.m_pairs[h*2].y+1, r.m_pairs[h*2+1].x+1, r.m_pairs[h*2+1].y+1]
+			PDF.newLabel(1, Vector2(x+ofst+20, y+5), txt, 40, "ZenKakuGothicNew")
 			x += dx
-		if m_n_resting != 0:
-			txt = " R: "
+		if m_n_resting != 0:	# 休憩あり
+			txt = " "
 			for p in r.m_resting:
 				txt += "%d "%(p+1)
 			PDF.newLabel(1, Vector2(x+ofst, y+5), txt, 40, "ZenKakuGothicNew")
