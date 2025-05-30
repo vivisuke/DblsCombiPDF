@@ -493,7 +493,7 @@ func gen_PDF() -> bool:
 		PDF.newLabel(1, Vector2(h*dx+dx/2-20, y0+5), txt, 40, "ZenKakuGothicNew")
 	var ofst = 100 if n_clmn < 4 else 0
 	if m_n_resting != 0:	# 休憩あり
-		PDF.newLabel(1, Vector2(m_n_corts*dx+ofst, y0+5), "  Rest", 40, "ZenKakuGothicNew")
+		PDF.newLabel(1, Vector2(m_n_corts*dx+45, y0+5), "Rest", 40, "ZenKakuGothicNew")
 	x = x0
 	y = y0 + dy
 	for v in range(m_rounds.size()):
