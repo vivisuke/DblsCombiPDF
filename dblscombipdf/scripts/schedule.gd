@@ -405,6 +405,10 @@ func update_pair_counts(pairs : PackedVector2Array):
 	for p in pairs:
 		m_pair_counts[p.x][p.y] += 1
 		m_pair_counts[p.y][p.x] += 1
+func undo_pair_counts(pairs : PackedVector2Array):
+	for p in pairs:
+		m_pair_counts[p.x][p.y] -= 1
+		m_pair_counts[p.y][p.x] -= 1
 func init_oppo_counts():
 	m_oppo_counts.resize(m_n_players)
 	for i in range(m_n_players):

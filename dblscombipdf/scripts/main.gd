@@ -86,6 +86,7 @@ func gen_match():
 			#sch.m_rounds.remove_at(1)
 			#print(sch.to_str())
 		print("min %d: std = %.3f"%[minr+1, minstd])
+		sch.undo_pair_counts(sch.m_rounds[minr].m_pairs)
 		sch.undo_oppo_counts(sch.m_rounds[minr].m_pairs)
 		var players = []
 		for i in range(m_n_corts*2):
